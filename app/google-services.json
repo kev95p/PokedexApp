@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "690482454174",
+    "firebase_url": "https://pruebaelaniin-default-rtdb.firebaseio.com",
+    "project_id": "pruebaelaniin",
+    "storage_bucket": "pruebaelaniin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690482454174:android:c3f423188a0f25dad9a58f",
+        "android_client_info": {
+          "package_name": "com.kev95p.pruebakotlin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "690482454174-i53a0e4693q9dhh80oslinefadt4qj1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdFPvXT1c85YH9OX4l9JarJE5SKTnq8CA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "690482454174-i53a0e4693q9dhh80oslinefadt4qj1s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
