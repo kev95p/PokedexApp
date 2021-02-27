@@ -52,7 +52,6 @@ class TeamsListAdapter(
         }
         holder.itemClickable.setOnClickListener { view ->
             dataSet[position]?.let { onClickListener?.onItemClick(it) }
-            Toast.makeText(ctx,"Click item",Toast.LENGTH_SHORT).show()
         }
 
     }
