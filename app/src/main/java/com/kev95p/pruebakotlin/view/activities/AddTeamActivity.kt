@@ -77,6 +77,12 @@ class AddTeamActivity : AppCompatActivity(), AddTeam.View {
                     dialogBuilder.setPositiveButton("Ok") { dlg, _ ->
                         teamPokemonList.remove(item)
                         teamPokemonStatListAdapter.notifyDataSetChanged()
+                        if (teamPokemonList.size >= 6) {
+                            autoSearchPokemon.visibility = View.GONE
+                        }
+                        else{
+                            autoSearchPokemon.visibility = View.VISIBLE
+                        }
                         dlg.dismiss()
                     }
 
@@ -98,8 +104,6 @@ class AddTeamActivity : AppCompatActivity(), AddTeam.View {
         teamList.adapter = teamPokemonStatListAdapter
 
 
-
-
         autoSearchPokemon.setOnItemClickListener { parent, view, position, id ->
             autoSearchPokemon.setText("")
             autoSearchPokemon.hideKeyboard()
@@ -107,6 +111,9 @@ class AddTeamActivity : AppCompatActivity(), AddTeam.View {
             teamPokemonStatListAdapter.notifyDataSetChanged()
             if (teamPokemonList.size >= 6) {
                 autoSearchPokemon.visibility = View.GONE
+            }
+            else{
+                autoSearchPokemon.visibility = View.VISIBLE
             }
         }
 
@@ -178,8 +185,12 @@ class AddTeamActivity : AppCompatActivity(), AddTeam.View {
         txtTeamName.text = team.name
         teamPokemonList.addAll(team.pokemonList!!)
         teamPokemonStatListAdapter.notifyDataSetChanged()
-        autoSearchPokemon.requestFocus()
-
+        if (teamPokemonList.size >= 6) {
+            autoSearchPokemon.visibility = View.GONE
+        }
+        else{
+            autoSearchPokemon.visibility = View.VISIBLE
+        }
 
     }
 
