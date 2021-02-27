@@ -11,9 +11,9 @@
         android:id="@+id/teamCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="3dp"
         android:clickable="true"
         android:longClickable="true"
-        app:cardBackgroundColor="#85FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
                 android:id="@+id/teamPokemonList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
                 android:clickable="true"
                 android:longClickable="true"
@@ -59,9 +59,27 @@
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btn_get_link"
+                android:layout_width="68dp"
+                android:layout_height="55dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="link"
+                android:foreground="?attr/selectableItemBackground"
+                android:tint="@color/primaryColor"
+                app:layout_constraintEnd_toEndOf="@+id/itemClickable"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic__link_24" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,9 @@
 package com.kev95p.pruebakotlin.view.activities
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -39,7 +41,7 @@ class AddTeamActivity : AppCompatActivity(), AddTeam.View {
     private lateinit var teamPokemonList: ArrayList<PokemonDto?>
 
     private lateinit var presenter: AddTeam.Presenter
-    private var teamKey:String? = null
+    private var teamKey: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,7 @@ class AddTeamActivity : AppCompatActivity(), AddTeam.View {
         supportActionBar?.setDisplayShowHomeEnabled(true);
 
 
-
+        handleIntent(intent)
 
 
         txtTeamName = findViewById(R.id.txtTeamName)
@@ -59,16 +61,43 @@ class AddTeamActivity : AppCompatActivity(), AddTeam.View {
 
         teamList = findViewById(R.id.addTeamPokemonListt)
         teamPokemonList = ArrayList()
-        teamList.adapter = TeamPokemonStatListAdapter(teamPokemonList,this)
         teamList.setHasFixedSize(true)
         val llm = LinearLayoutManager(this)
         llm.orientation = LinearLayoutManager.VERTICAL
         teamList.layoutManager = llm
 
-        presenter = AddTeamPresenterImpl(this, this)
-        presenter.getLocalPokemon()
+        teamPokemonStatListAdapter = TeamPokemonStatListAdapter(teamPokemonList, this,
+            object : TeamPokemonStatListAdapter.OnClickItemListener {
+                override fun onLongClickItem(item: PokemonDto?) {
+                    Log.d("AddTeamActivity", "click item $item")
 
-        teamPokemonStatListAdapter = TeamPokemonStatListAdapter(teamPokemonList,this)
+                    val dialogBuilder = AlertDialog.Builder(this@AddTeamActivity)
+                    dialogBuilder.setTitle("Delete team")
+                    dialogBuilder.setMessage("Are you sure to delete this team")
+                    dialogBuilder.setPositiveButton("Ok") { dlg, _ ->
+                        teamPokemonList.remove(item)
+                        teamPokemonStatListAdapter.notifyDataSetChanged()
+                        dlg.dismiss()
+                    }
+
+                    dialogBuilder.setNegativeButton("Cancel"){dlg,_ ->
+                        run {
+                            dlg.cancel()
+                        }
+                    }
+
+                    val dialog = dialogBuilder.create()
+                    dialog.show()
+                }
+
+                override fun onClickItem(item: PokemonDto?) {
+                    Log.d("AddTeamActivity", "click item $item")
+                }
+
+            })
+        teamList.adapter = teamPokemonStatListAdapter
+
+
 
 
         autoSearchPokemon.setOnItemClickListener { parent, view, position, id ->
@@ -76,17 +105,32 @@ class AddTeamActivity : AppCompatActivity(), AddTeam.View {
             autoSearchPokemon.hideKeyboard()
             teamPokemonList.add(pokemonSearchAdapter.getItem(position))
             teamPokemonStatListAdapter.notifyDataSetChanged()
-            Log.d("AddTeamActivityclick",teamPokemonList.toString())
-            if (teamPokemonList.size >= 6){
+            if (teamPokemonList.size >= 6) {
                 autoSearchPokemon.visibility = View.GONE
             }
         }
 
-        if(intent.hasExtra("key")){
+        presenter = AddTeamPresenterImpl(this, this)
+        presenter.getLocalPokemon()
+
+        if (intent.hasExtra("key")) {
             teamKey = intent.getStringExtra("key")
             teamKey?.let { presenter.getTeam(it) }
         }
 
+
+
+    }
+
+    private fun handleIntent(intent: Intent) {
+        val appLinkAction = intent.action
+        val appLinkData: Uri? = intent.data
+        if (Intent.ACTION_VIEW == appLinkAction) {
+            appLinkData?.lastPathSegment?.also { recipeId ->
+
+                Log.d("AddTeamActivity", recipeId)
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -95,27 +139,27 @@ class AddTeamActivity : AppCompatActivity(), AddTeam.View {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.add_team_menu,menu)
+        menuInflater.inflate(R.menu.add_team_menu, menu)
         return true
     }
 
-    fun validateForm(): Boolean{
-        if(txtTeamName.text.isEmpty()){
+    private fun validateForm(): Boolean {
+        if (txtTeamName.text.isEmpty()) {
             txtTeamName.error = "Team name is required"
             return false
         }
-        if(teamPokemonList.size < 3){
-            Toast.makeText(this,"Please select three or more pokemon",Toast.LENGTH_SHORT).show()
+        if (teamPokemonList.size < 3) {
+            Toast.makeText(this, "Please select three or more pokemon", Toast.LENGTH_SHORT).show()
             return false
         }
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.save_team){
-            val team = TeamDto(txtTeamName.text.toString(),null,teamKey,teamPokemonList)
-            Log.d("AddTeamModel","saveTeamOnRdb")
-            if(validateForm()){
+        if (item.itemId == R.id.save_team) {
+            val team = TeamDto(txtTeamName.text.toString(), null, teamKey, teamPokemonList)
+            Log.d("AddTeamModel", "saveTeamOnRdb")
+            if (validateForm()) {
                 presenter.saveTeam(team)
             }
         }
@@ -129,13 +173,13 @@ class AddTeamActivity : AppCompatActivity(), AddTeam.View {
     }
 
     override fun receiveTeam(team: TeamDto) {
-        Log.d("AddTeamActivity",team.toString())
+        Log.d("AddTeamActivity", team.toString())
         teamPokemonList.clear()
         txtTeamName.text = team.name
         teamPokemonList.addAll(team.pokemonList!!)
         teamPokemonStatListAdapter.notifyDataSetChanged()
         autoSearchPokemon.requestFocus()
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
 
     }
 

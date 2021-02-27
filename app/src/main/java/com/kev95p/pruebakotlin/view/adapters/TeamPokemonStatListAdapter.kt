@@ -8,14 +8,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.kev95p.pruebakotlin.R
 import com.kev95p.pruebakotlin.data.dto.PokemonDto
 
-class TeamPokemonStatListAdapter(private val dataSet:ArrayList<PokemonDto?>,private val ctx: Context):
+class TeamPokemonStatListAdapter(private val dataSet:ArrayList<PokemonDto?>,private val ctx: Context, private val onClickListener: OnClickItemListener):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val pokemonImage: ImageView = view.findViewById(R.id.teamPokemonImage)
@@ -32,6 +34,7 @@ class TeamPokemonStatListAdapter(private val dataSet:ArrayList<PokemonDto?>,priv
         val barSpDef: ProgressBar = view.findViewById(R.id.barSpDef)
         val barSpAtk: ProgressBar = view.findViewById(R.id.barSpAtk)
         val barSpeed: ProgressBar = view.findViewById(R.id.barSpeed)
+        val cardView: CardView = view.findViewById(R.id.pokemon_stat_card)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -62,9 +65,29 @@ class TeamPokemonStatListAdapter(private val dataSet:ArrayList<PokemonDto?>,priv
         holder.barSpDef.progress = pkmn.spDef!!
         holder.barSpAtk.progress = pkmn.spAtk!!
         holder.barSpeed.progress = pkmn.speed!!
+
+
+        holder.cardView.setOnClickListener { view ->
+            Log.d("TeamStatAdapter","Click")
+            onClickListener.onClickItem(dataSet[position])
+        }
+
+        holder.cardView.setOnLongClickListener { view ->
+            onClickListener.onLongClickItem(dataSet[position])
+            true
+        }
+
     }
 
     override fun getItemCount(): Int {
         return dataSet.size
     }
+
+
+
+    interface OnClickItemListener{
+        fun onLongClickItem(item:PokemonDto?)
+        fun onClickItem(item:PokemonDto?)
+    }
+
 }

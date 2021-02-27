@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 (this as? AppCompatActivity)?.supportActionBar?.title = "Teams"
                 invalidateOptionsMenu()
             }
-            false
+            true
         }
 
     }

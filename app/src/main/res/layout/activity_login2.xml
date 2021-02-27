@@ -17,7 +17,10 @@
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:subtitleTextColor="@color/primaryTextColor"
+        app:title="Pokedex App"
+        app:titleTextColor="@color/primaryTextColor" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -33,7 +36,7 @@
     <EditText
         android:id="@+id/txtEmail"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="49dp"
         android:layout_marginEnd="49dp"
         android:layout_marginBottom="17dp"
@@ -48,7 +51,7 @@
     <EditText
         android:id="@+id/txtPassword"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="37dp"
@@ -66,6 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="280dp"
         android:text="Login"
+        android:textColor="@color/primaryTextColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

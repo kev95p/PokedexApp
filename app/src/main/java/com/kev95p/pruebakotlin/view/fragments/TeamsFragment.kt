@@ -54,7 +54,7 @@ class TeamsFragment : Fragment(), Teams.View {
             }
 
             override fun onItemLongClick(team: TeamDto) {
-                val dialogBuilder = AlertDialog.Builder(context);
+                val dialogBuilder = AlertDialog.Builder(context)
                 dialogBuilder.setTitle("Delete team")
                 dialogBuilder.setMessage("Are you sure to delete this team")
                 dialogBuilder.setPositiveButton("Ok") { dlg, _ ->
